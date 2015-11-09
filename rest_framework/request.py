@@ -232,8 +232,11 @@ class Request(object):
         Sets the user on the current request. This is necessary to maintain
         compatibility with django.contrib.auth where the user property is
         set in the login and logout functions.
+        Note that we also set the user on Django's underlying `HttpRequest`
+        instance, ensuring that it is available to any middleware in the stack.
         """
         self._user = value
+        self._request.user = value
 
     @property
     def auth(self):
